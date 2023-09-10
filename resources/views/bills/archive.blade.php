@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-قائمة الفواتير
+أرشيف الفواتير
 @endsection
 @section('css')
     <!-- Internal Data table css -->
@@ -19,13 +19,10 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">الفواتير</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ القائمة</span>
+							<h4 class="content-title mb-0 my-auto">ارشيف الفواتير</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ القائمة</span>
 						</div>
 					</div>
-					<div class="d-flex my-xl-auto right-content">
-                        <div><a title="إضافة فاتورة جديدة" href="{{route('billCreate')}}" class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary "><i class="fa fa-plus"></i>  إضافة فاتورة</a></div>
-                        <div> <a title="ارشيف الفواتير" href="{{route('billArchive')}}" class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary "><i class="fa fa-archive"></i>  ارشيف الفواتير</a></div>
-					</div>
+
 				</div>
 				<!-- breadcrumb -->
 @endsection
@@ -42,14 +39,14 @@
                                         <thead>
                                         <tr>
                                             <th class="wd-10p border-bottom-0">رقم الفاتورة</th>
-                                            <th class="wd-10p border-bottom-0">تاريخ الاصدار</th>
+                                            <th class="wd-15p border-bottom-0">تاريخ الاصدار</th>
                                             <th class="wd-10p border-bottom-0">الادمن الذي اضافها</th>
-                                            <th class="wd-10p border-bottom-0">تاريخ الاستحقاق</th>
+                                            <th class="wd-15p border-bottom-0">تاريخ الاستحقاق</th>
                                             <th class="wd-10p border-bottom-0">القسم</th>
                                             <th class="wd-10p border-bottom-0">المنتج</th>
-                                            <th class="wd-10p border-bottom-0">اجمالي الدخل</th>
+                                            <th class="wd-10p border-bottom-0">الاجمالي مع الضريبة</th>
                                             <th class="wd-10p border-bottom-0">الحاله</th>
-                                            <th class="wd-35p border-bottom-0">الاعدادت</th>
+                                            <th class="wd-25p border-bottom-0">الاعدادت</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -62,7 +59,7 @@
                                                     <td>{{$info->due_date}}</td>
                                                     <td>{{$info->section->section_name}}</td>
                                                     <td>{{$info->product->product_name}}</td>
-                                                    <td>{{$info->mount_collection}}</td>
+                                                    <td>{{$info->total}}</td>
                                                     <td >
                                                         <span class="
                                                                 @if($info->status->id == 2)
@@ -76,13 +73,8 @@
                                                     </td>
                                                     <td>
                                                         <div class="row">
-                                                            <a title="عرض تفاصيل الفاتورة" id="billDeL"  data-id="{{$info->id}}" class=" btn-icon btn btn-outline-secondary m-1"
-                                                                data-toggle="modal" data-target="#View" ><i class="typcn typcn-eye-outline"></i></a>
-                                                            <a title="عملية دفع جديدة" id="addDetails" data-id="{{$info->id}}"  class=" btn-icon btn btn-outline-success m-1"
-                                                                data-toggle="modal" data-target="#Details"><i class="typcn typcn-plus-outline"></i></a>
-                                                            <a title="نعديل الفاتورة" href="{{route('billEdit',$info->bill_code)}}"  class=" btn-icon btn btn-outline-success m-1"><i class="typcn typcn-edit"></i></a>
-                                                            <a title="ارشفة الفاتورة" href="{{route('billEdit',$info->bill_code)}}"  class=" btn-icon btn btn-outline-success m-1"><i class="typcn typcn-archive"></i></a>
-                                                            <a title="حذف الفاتورة" id="Delete"  data-bill_id="{{$info->id}}" class=" btn-icon  btn btn-outline-danger m-1" data-toggle="modal" data-target="#Delete"><i class="typcn typcn-delete-outline"></i></a>
+                                                            <a title="ارجاع الفاتورة" href="{{route('billRestore',$info->id)}}"  class="col-md-3 btn-icon btn btn-outline-success m-1"><i class="typcn typcn-archive"></i></a>
+                                                            <a title="حذف الفاتورة نهائيا" id="Delete"  data-bill_id="{{$info->id}}" class="col-md-3 btn-icon  btn btn-outline-danger m-1" data-toggle="modal" data-target="#Delete"><i class="typcn typcn-delete-outline"></i></a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -146,26 +138,6 @@
                 })
 
             })
-
-            $(document).on('click','#addDetails',function (){
-                var addDetails = $(this).data('id');
-                jQuery.ajax({
-                    url:'{{route('billAjax')}}',
-                    type:'post',
-                    "dataType":"html",
-                    cache:false,
-                    data:{'_token':'{{csrf_token()}}' , addDetails },
-                    success:function (data){
-                        $('.viewDetails').html(data)
-                    },
-                    error:function (){
-                        $('.modal').html('<h5 style="color:red">عفوا لا يوجد بيانات لعرضها</h5>')
-                    }
-
-                })
-
-            })
-
             $(document).on('click','#deleteSubmitAttach',function (){
                 var  billCode = $('#bill_code').val()
                 var chk = confirm('هل انت متاكد من حذف ملحق'+billCode)
@@ -174,7 +146,6 @@
                 }
             })
 
-
             $(document).on('click','#Delete',function (){
                 var id = $(this).data('bill_id')
                 $('#deleteSubmit').val(id)
@@ -182,10 +153,8 @@
 
             $(document).on('click','#deleteSubmit',function (){
                 var id = $(this).val()
-                location.href='{{route('billToArchive')}}' + '/' + id;
+                location.href='{{route('forceDelete')}}' + '/' + id;
             })
-
-
 
 
 

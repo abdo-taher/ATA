@@ -1,4 +1,7 @@
 @extends('layouts.master')
+@section('title')
+    اضافة فاتورة
+@endsection
 @section('css')
     <!--- Internal Select2 css-->
     <link href="{{ URL::asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
@@ -48,7 +51,7 @@
                         <div class="row">
                             <div class="col">
                                 <label for="inputName" class="control-label">رقم الفاتورة</label>
-                                <input type="number" class="form-control" id="inputName" name="bill_code" title="يرجي ادخال رقم الفاتورة" value="{{old('bill_code')}}" required>
+                                <input type="number" class="form-control" id="inputName" name="bill_code" title="يرجي ادخال رقم الفاتورة" value="{{rand(00000,99999) , old('bill_code')}}" required>
                                 @error('bill_code')
                                 <div class="alert alert-outline-danger" role="alert">
                                     <button aria-label="Close" class="close" data-dismiss="alert" type="button">
@@ -91,7 +94,7 @@
                                 <label for="inputName" class="control-label">القسم</label>
                                 <select name="section_id" class="form-control SlectBox" id="Section">
                                     <!--placeholder-->
-                                    <option value="" selected disabled>حدد القسم</option>
+
                                     @foreach ($sections as $info)
                                         <option {{old('section_id') == $info->id ? "selected" : ""}} value="{{ $info->id }}"> {{ $info->section_name }}</option>
                                     @endforeach
@@ -106,11 +109,9 @@
                             </div>
 
                             <div class="col">
-                                <label for="inputName" class="control-label">المنتج</label>
+                                <label for="product" class="control-label">المنتج</label>
                                 <select id="product" name="product_id" class="form-control">
-                                    @foreach ($product as $info)
-                                        <option {{old('product_id') == $info->id ? "selected" : "disabled"}} value="{{ $info->id }}"> {{ $info->product_name }}</option>
-                                    @endforeach
+                                    <option value="" selected disabled>حدد المنتج</option>
                                 </select>
                                 @error('product_id')
                                 <div class="alert alert-outline-danger" role="alert">
@@ -119,7 +120,7 @@
                                     <strong>خطأ!</strong>{{$message}}
                                 </div>
                                 @enderror
-                                </select>
+
                             </div>
 
                             <div class="col">

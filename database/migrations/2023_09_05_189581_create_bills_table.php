@@ -30,7 +30,6 @@ return new class extends Migration
             $table->integer('status_id')->unsigned()->default(2);
             $table->foreign('status_id')->references('id')->on('bill_status')->onDelete('cascade');
             $table->text('note')->nullable();
-            $table->date('payment_date')->nullable();
             $table->integer('added_by');
             $table->integer('updated_by')->nullable();
             $table->softDeletes();

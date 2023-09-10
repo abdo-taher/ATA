@@ -1,17 +1,46 @@
 
 
+@if (session()->has('success'))
+    <script>
+        window.onload = function() {
+            notif({
+                msg: "{{Session::get('success')}}",
+                type: "success"
+            })
+        }
 
-@if (Session::has('success'))
-    <div class="alert alert-outline-success" role="alert">
-        <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-            <span aria-hidden="true">&times;</span></button>
-        <strong>نجاح العملية!</strong> {{Session::get('success')}}
-    </div>
+    </script>
 @endif
-@if (Session::has('fail'))
-    <div class="alert alert-outline-danger" role="alert">
-        <button aria-label="Close" class="close" data-dismiss="alert" type="button">
-            <span aria-hidden="true">&times;</span></button>
-        <strong>فشل العملية!</strong> {{Session::get('fail')}}
-    </div>
+@if (session()->has('fail'))
+    <script>
+        window.onload = function() {
+            notif({
+                msg: "{{Session::get('fail')}}",
+                type: "error"
+            })
+        }
+
+    </script>
 @endif
+@error('file_name')
+<script>
+    window.onload = function() {
+        notif({
+            msg: "{{$message}}",
+            type: "error"
+        })
+    }
+
+</script>
+@enderror
+@error('payment_total')
+<script>
+    window.onload = function() {
+        notif({
+            msg: "{{$message}}",
+            type: "error"
+        })
+    }
+
+</script>
+@enderror

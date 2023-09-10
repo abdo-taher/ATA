@@ -33,6 +33,8 @@ class billRequest extends FormRequest
             'discount'=>'required',
             'discount_rate_id'=>'required',
             'note'=>'required',
+            'file_name'=>'mimes:jpg,png,jpeg,pdf'
+
 
 
 
@@ -51,7 +53,7 @@ class billRequest extends FormRequest
             'mount_commission.required'=>'الرجاء ادخال مبلغ العمولة',
             'discount.required'=>'الرجاء اخال قيمة الخصم',
             'discount_rate_id.required'=>'الرجاء ادخال نسبة الخصم',
-
+            'file_name.mimes' => 'يجب ان تكون الصورة من نوع pdf او jpg او png'
         ];
     }
 }

@@ -25,7 +25,7 @@ Route::group([],function (){
     Route::get('/logout','App\Http\Controllers\Auth\loginController@exit')->name('logout');
     Route::group(['namespace'=>'App\Http\Controllers\Admin','middleware'=>'auth:admin'],function (){
         Route::get('/','AdminController@index')->name('index');
-        Route::get('/view/{page}','AdminController@showw')->name('ss');
+        Route::get('/view/oth/{page}','AdminController@showw')->name('ss');
 
 
         Route::group(['prefix'=>'Sections'],function (){
@@ -47,14 +47,19 @@ Route::group([],function (){
         });
         Route::group(['prefix'=>'Bills'],function (){
             Route::get('/','billController@index')->name('billIndex');
-            Route::get('/{status?}','billController@trashed')->name('billTrashed');
+            Route::get('/Archive','billController@archive')->name('billArchive');
             Route::get('/Create','billController@create')->name('billCreate');
             Route::post('/Store','billController@store')->name('billStore');
+            Route::post('/storeAttachment','billController@storeBillAttachment')->name('storeBillAttachment');
             Route::get('/Edit/{bill_code}','billController@edit')->name('billEdit');
             Route::post('/Update/{id}','billController@update')->name('billUpdate');
-            Route::get('/Active','billController@active')->name('billActive');
-            Route::get('/Delete/{id}','billController@delete')->name('billDelete');
+            Route::post('/PaymentUpdate/{id}','billController@paymentUpdate')->name('paymentUpdate');
+            Route::get('/toArchive/{id?}','billController@toArchive')->name('billToArchive');
+            Route::get('/Restore/{id}','billController@billRestore')->name('billRestore');
+            Route::get('/DeleteAttachment/{id?}','billController@deleteAttachment')->name('deleteAttachment');
+            Route::get('/Delete/{id?}','billController@forceDelete')->name('forceDelete');
             Route::post('/AjaxData','billController@ajaxFunction')->name('billAjax');
+            Route::post('/deleteAttachment','billController@deleteBillAttachment')->name('deleteBillAttachment');
         });
     });
 });

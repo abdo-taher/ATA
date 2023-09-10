@@ -5,6 +5,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/resources/views/oth
 .env
 .env.backup
 .env.production

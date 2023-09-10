@@ -24,7 +24,7 @@ class AdminController extends Controller
      */
     public function showw($page)
     {
-        return view($page);
+        return view('oth.'.$page);
 
     }
     /**

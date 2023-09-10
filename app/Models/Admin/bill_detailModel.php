@@ -15,7 +15,7 @@ class bill_detailModel extends Model
     public function added(){
         return $this->belongsTo(\App\Models\Admin\adminModel::class,'added_by');
     }
-    public function updated_by(){
+    public function updatedd(){
         return $this->belongsTo(\App\Models\Admin\adminModel::class,'updated_by');
     }
     public function section() {

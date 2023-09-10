@@ -12,7 +12,7 @@ class billModel extends Model
     use HasFactory , SoftDeletes;
 
     protected $fillable = [
-        'bill_code', 'bill_date', 'due_date', 'product', 'section_id', 'mount_collection', 'mount_commission', 'discount', 'value_vat', 'discount_rate_id ', 'total', 'status_id', 'note', 'payment_date', 'added_by', 'updated_by', 'deleted_at', 'created_at', 'updated_at'
+        'bill_code', 'bill_date', 'due_date',  'section_id', 'product_id', 'mount_collection', 'mount_commission', 'discount', 'value_vat', 'discount_rate_id ', 'total', 'status_id', 'note', 'payment_date', 'added_by', 'updated_by', 'deleted_at', 'created_at', 'updated_at'
     ];
     protected $table = 'bills';
 
