@@ -4,11 +4,13 @@ namespace App\Models\Admin;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 
 class AdminModel extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory,Notifiable,HasRoles;
     protected $guarded = 'admin';
     protected $table = 'admins';
     protected $fillable = [

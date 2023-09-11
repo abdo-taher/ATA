@@ -23,8 +23,7 @@
 						</div>
 					</div>
 					<div class="d-flex my-xl-auto right-content">
-                        <div><a title="إضافة فاتورة جديدة" href="{{route('billCreate')}}" class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary "><i class="fa fa-plus"></i>  إضافة فاتورة</a></div>
-                        <div> <a title="ارشيف الفواتير" href="{{route('billArchive')}}" class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary "><i class="fa fa-archive"></i>  ارشيف الفواتير</a></div>
+
 					</div>
 				</div>
 				<!-- breadcrumb -->
@@ -37,25 +36,30 @@
 
                         <div class="card">
                             <div class="card-body">
+                                <div>
+                                    <a title="إضافة فاتورة جديدة" href="{{route('billCreate')}}" class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary "><i class="fa fa-plus"></i>  إضافة فاتورة</a>
+                                    <a title="ارشيف الفواتير" href="{{route('billArchive')}}" class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary "><i class="fa fa-archive"></i>  ارشيف الفواتير</a>
+                                    <a title="تصدير اكسيل" href="{{route('exportExcel')}}" class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary "><i class="fa fa-file-export"></i>  تصدير اكسيل</a>
+                                </div>
                                 <div class="table-responsive">
                                     <table class="table text-md-nowrap table-hover" id="example1">
                                         <thead>
                                         <tr>
-                                            <th class="wd-10p border-bottom-0">رقم الفاتورة</th>
-                                            <th class="wd-10p border-bottom-0">تاريخ الاصدار</th>
-                                            <th class="wd-10p border-bottom-0">الادمن الذي اضافها</th>
-                                            <th class="wd-10p border-bottom-0">تاريخ الاستحقاق</th>
-                                            <th class="wd-10p border-bottom-0">القسم</th>
-                                            <th class="wd-10p border-bottom-0">المنتج</th>
-                                            <th class="wd-10p border-bottom-0">اجمالي الدخل</th>
-                                            <th class="wd-10p border-bottom-0">الحاله</th>
-                                            <th class="wd-35p border-bottom-0">الاعدادت</th>
+                                            <th>رقم الفاتورة</th>
+                                            <th>تاريخ الاصدار</th>
+                                            <th>الادمن الذي اضافها</th>
+                                            <th>تاريخ الاستحقاق</th>
+                                            <th>القسم</th>
+                                            <th>المنتج</th>
+                                            <th>اجمالي الدخل</th>
+                                            <th>الحاله</th>
+                                            <th>الاعدادت</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @if(($data))
                                             @foreach($data as $info )
-                                                <tr>
+                                                <tr class="align-items-center">
                                                     <td><span class="badge badge-success float-left">{{$info->discount_rate->discount_rate}}%</span>{{$info->bill_code}}</td>
                                                     <td>{{$info->bill_date}}</td>
                                                     <td>{{$info->added->name}}</td>
@@ -75,15 +79,25 @@
                                                          ">{{$info->status->status_name}}</span>
                                                     </td>
                                                     <td>
-                                                        <div class="row">
-                                                            <a title="عرض تفاصيل الفاتورة" id="billDeL"  data-id="{{$info->id}}" class=" btn-icon btn btn-outline-secondary m-1"
-                                                                data-toggle="modal" data-target="#View" ><i class="typcn typcn-eye-outline"></i></a>
-                                                            <a title="عملية دفع جديدة" id="addDetails" data-id="{{$info->id}}"  class=" btn-icon btn btn-outline-success m-1"
-                                                                data-toggle="modal" data-target="#Details"><i class="typcn typcn-plus-outline"></i></a>
-                                                            <a title="نعديل الفاتورة" href="{{route('billEdit',$info->bill_code)}}"  class=" btn-icon btn btn-outline-success m-1"><i class="typcn typcn-edit"></i></a>
-                                                            <a title="ارشفة الفاتورة" href="{{route('billEdit',$info->bill_code)}}"  class=" btn-icon btn btn-outline-success m-1"><i class="typcn typcn-archive"></i></a>
-                                                            <a title="حذف الفاتورة" id="Delete"  data-bill_id="{{$info->id}}" class=" btn-icon  btn btn-outline-danger m-1" data-toggle="modal" data-target="#Delete"><i class="typcn typcn-delete-outline"></i></a>
+                                                        <div class="mb-3 mb-xl-0">
+                                                            <div class="btn-group dropdown show">
+
+                                                                <button type="button" class="btn-icon btn btn-outline dropdown-toggle dropdown-toggle-split" id="dropdownMenuDate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                                    <i class="si si-options"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-left " aria-labelledby="dropdownMenuDate" data-x-placement="bottom-end" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-1px, 40px, 0px);">
+                                                                    <a title="عرض تفاصيل الفاتورة" id="billDeL"  data-id="{{$info->id}}" class=" btn-icon btn btn-outline-secondary m-1"
+                                                                       data-toggle="modal" data-target="#View" ><i class="typcn typcn-eye-outline"></i></a>
+                                                                    <a title="عملية دفع جديدة" id="addDetails" data-id="{{$info->id}}"  class=" btn-icon btn btn-outline-success m-1"
+                                                                       data-toggle="modal" data-target="#Details"><i class="typcn typcn-plus-outline"></i></a>
+                                                                    <a title="طباعة الفاتورة" href="{{route('billPrint',$info->bill_code)}}"   class=" btn-icon  btn btn-outline-danger m-1"><i class="typcn typcn-printer"></i></a>
+                                                                    <a title="نعديل الفاتورة" href="{{route('billEdit',$info->bill_code)}}"  class=" btn-icon btn btn-outline-success m-1"><i class="typcn typcn-edit"></i></a>
+                                                                    <a title="ارشفة الفاتورة" id="Delete"  data-bill_id="{{$info->id}}" class=" btn-icon  btn btn-outline-dark m-1" data-toggle="modal" data-target="#Archive"><i class="typcn typcn-archive"></i></a>
+                                                                    <a title="حذف الفاتورة" id="Delete"  data-bill_id="{{$info->id}}" class=" btn-icon  btn btn-outline-danger m-1" data-toggle="modal" data-target="#Delete"><i class="typcn typcn-delete-outline"></i></a>
+                                                                </div>
+                                                            </div>
                                                         </div>
+
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -166,14 +180,12 @@
 
             })
 
-            $(document).on('click','#deleteSubmitAttach',function (){
-                var  billCode = $('#bill_code').val()
-                var chk = confirm('هل انت متاكد من حذف ملحق'+billCode)
+            $(document).on('click','#deleteAttachment',function (){
+                var chk = confirm('هل انت متاكد من حذف ملحق')
                 if(!chk){
                     return false;
                 }
             })
-
 
             $(document).on('click','#Delete',function (){
                 var id = $(this).data('bill_id')

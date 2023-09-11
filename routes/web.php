@@ -24,8 +24,8 @@ use Illuminate\Support\Facades\Route;
 Route::group([],function (){
     Route::get('/logout','App\Http\Controllers\Auth\loginController@exit')->name('logout');
     Route::group(['namespace'=>'App\Http\Controllers\Admin','middleware'=>'auth:admin'],function (){
-        Route::get('/','AdminController@index')->name('index');
-        Route::get('/view/oth/{page}','AdminController@showw')->name('ss');
+        Route::get('/','IndexController@index')->name('index');
+        Route::get('/view/oth/{page}','IndexController@showw')->name('ss');
 
 
         Route::group(['prefix'=>'Sections'],function (){
@@ -47,6 +47,7 @@ Route::group([],function (){
         });
         Route::group(['prefix'=>'Bills'],function (){
             Route::get('/','billController@index')->name('billIndex');
+            Route::get('/Paid/{type}','billController@paidType')->name('billPaid');
             Route::get('/Archive','billController@archive')->name('billArchive');
             Route::get('/Create','billController@create')->name('billCreate');
             Route::post('/Store','billController@store')->name('billStore');
@@ -54,12 +55,25 @@ Route::group([],function (){
             Route::get('/Edit/{bill_code}','billController@edit')->name('billEdit');
             Route::post('/Update/{id}','billController@update')->name('billUpdate');
             Route::post('/PaymentUpdate/{id}','billController@paymentUpdate')->name('paymentUpdate');
+            Route::get('/Print-Bill/{bill_code}','billController@print')->name('billPrint');
             Route::get('/toArchive/{id?}','billController@toArchive')->name('billToArchive');
             Route::get('/Restore/{id}','billController@billRestore')->name('billRestore');
             Route::get('/DeleteAttachment/{id?}','billController@deleteAttachment')->name('deleteAttachment');
             Route::get('/Delete/{id?}','billController@forceDelete')->name('forceDelete');
+            Route::get('/ExcelExport','billController@export')->name('exportExcel');
             Route::post('/AjaxData','billController@ajaxFunction')->name('billAjax');
             Route::post('/deleteAttachment','billController@deleteBillAttachment')->name('deleteBillAttachment');
+        });
+        Route::group(['prefix'=>'Admin'],function (){
+            Route::get('/','adminController@index')->name('adminIndex');
+            Route::post('/Add','adminController@add')->name('adminAdd');
+            Route::post('/Store','adminController@store')->name('adminStore');
+            Route::post('/Edit/{name}','adminController@edit')->name('adminEdit');
+            Route::post('/Update/{id}','adminController@update')->name('adminUpdate');
+            Route::get('/Active/{id}','adminController@active')->name('adminActive');
+            Route::get('/Delete/{id}','adminController@destroy')->name('adminDelete');
+            Route::post('/AjaxData','adminController@ajaxFunction')->name('adminAjax');
+
         });
     });
 });

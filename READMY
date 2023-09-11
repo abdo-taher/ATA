@@ -1,0 +1,8 @@
+
+
+
+When restore app and appear error for export laravel use this blugn
+
+<code> composer require maatwebsite/excel --ignore-platform-req=ext-gd --ignore-platform-req=ext-zip </code>
+
+

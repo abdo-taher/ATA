@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\Admin\billExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\billRequest;
+use App\Models\Admin\AdminModel;
+use App\Models\User;
+use App\Notifications\Admin\BillNotify;
 use App\Models\Admin\bill_attachmentModel;
 use App\Models\Admin\bill_detailModel;
 use App\Models\Admin\billModel;
@@ -11,10 +15,11 @@ use App\Models\Admin\productModel;
 use App\Models\Admin\sectionModel;
 use App\Models\Admin\tax_rateModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Excel;
 use mysql_xdevapi\Exception;
-use function PHPUnit\Framework\isEmpty;
+
 
 class billController extends Controller
 {
@@ -26,6 +31,23 @@ class billController extends Controller
         $data = billModel::all();
         return view('bills.index',compact('data'));
     }
+
+    public function paidType($type)
+    {
+        if ($type == 'fullPaid'){
+            $data = billModel::where('status_id',1)->get();
+            $type= 'الفواتير المدفوعة';
+        } elseif ($type == 'partiallyPaid'){
+            $data = billModel::where('status_id',3)->get();
+            $type= 'الفواتير المدفوعة جزئيا';
+        }else{
+            $data = billModel::where('status_id',2)->get();
+            $type= 'الفواتير الغير المدفوعة';
+        }
+        $data = billModel::all();
+        return view('bills.paidType',compact('data','type'));
+    }
+
     public function archive()
     {
         $data = billModel::onlyTrashed()->get();
@@ -41,6 +63,7 @@ class billController extends Controller
      */
     public function create()
     {
+
         $sections = sectionModel::get(['id','section_name']);
         $product = productModel::get(['id','product_name']);
         $tax_rate = tax_rateModel::get(['id','discount_rate']);
@@ -78,8 +101,12 @@ class billController extends Controller
                     'added_by' => $request->added_by,
                     ]);
                     if ($attachments){
+                        // save attachment
                         $filename = $request->file_name->getClientOriginalName();
                         $request->file_name->move(base_path('assets/img/billFiles')."/".$request->bill_code , $filename);
+                        // send email
+                        $admin = AdminModel::first();
+                        Notification::send($admin,new BillNotify($request->bill_code));
                         return redirect()->route('billIndex')->with(['success'=>'تم اضافة الفاتورة بنجاح']);
                     }
                 }
@@ -255,9 +282,13 @@ class billController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function print($bill_code){
+
+        $data = billModel::where('bill_code',$bill_code)->first();
+        $details = bill_detailModel::where('bill_code',$bill_code)->get();
+        return view('bills.print',compact('data','details'));
+    }
+
     public function deleteAttachment($id)
     {
         $findRow = bill_attachmentModel::find($id);
@@ -295,6 +326,10 @@ class billController extends Controller
             return redirect()->route('billIndex')->with(['fail'=>'لم يتم  حذف الفاتورة']);
         }
 
+    }
+    public function export(Excel $excel)
+    {
+        return $excel->download(new billExport(), 'bill.xlsx');
     }
 
 

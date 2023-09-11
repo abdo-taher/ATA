@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\AdminModel;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class IndexController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $data = AdminModel::all();
-        return view('admin.index',compact('data'));
+        return view('index');
 
     }
     /**
@@ -24,7 +22,16 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function showw($page)
+    {
+        return view('oth.'.$page);
 
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         //
