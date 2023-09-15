@@ -31,3 +31,41 @@
 <!-- custom js -->
 <script src="{{URL::asset('assets/js/custom.js')}}"></script><!-- Left-menu js-->
 <script src="{{URL::asset('assets/plugins/side-menu/sidemenu.js')}}"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '#veiwBill', function () {
+            var id = $(this).data('id');
+            $(this).addClass('asRead');
+            jQuery.ajax({
+                url: '{{route('billAjax')}}',
+                type: 'post',
+                "dataType": "html",
+                cache: false,
+                data: {'_token': '{{csrf_token()}}', id},
+                success: function (data) {
+                    $('.viewDetails').html(data)
+                },
+                error: function () {
+                    $('.modal').html('<h5 style="color:red">عفوا لا يوجد بيانات لعرضها</h5>')
+                }
+
+            })
+
+        })
+        $(document).on('click','#exit',function (){
+            var id = $('.asRead').data('notifay')
+            if (id != undefined){
+                location.href='{{route('billRead')}}' + '/' + id;
+            }
+
+
+        })
+        // setInterval(function (){
+        //     $("#notification1").load(window.location.href + "#notification1");
+        //     $("#notification2").load(window.location.href + "#notification2");
+        //     $("#notification3").load(window.location.href + "#notification3");
+        // },5000)
+    })
+</script>

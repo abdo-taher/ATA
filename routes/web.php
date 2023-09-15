@@ -46,7 +46,8 @@ use Illuminate\Support\Facades\Route;
         });
         Route::group(['prefix'=>'Bills'],function (){
             Route::get('/','billController@index')->name('billIndex');
-            Route::get('/View/{id}','billController@view')->name('billView');
+            Route::get('/View/readAll','billController@asReadAll')->name('billReadAll');
+            Route::get('/View/read/{id?}','billController@asRead')->name('billRead');
             Route::get('/Paid/{type}','billController@paidType')->name('billPaid');
             Route::get('/Archive','billController@archive')->name('billArchive');
             Route::get('/Create','billController@create')->name('billCreate');

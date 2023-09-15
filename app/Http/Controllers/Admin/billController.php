@@ -14,6 +14,7 @@ use App\Models\Admin\productModel;
 use App\Models\Admin\sectionModel;
 use App\Models\Admin\tax_rateModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel;
@@ -41,11 +42,17 @@ class billController extends Controller
         $data = billModel::all();
         return view('bills.index',compact('data'));
     }
-    public function view($id)
+    public function asRead($id)
     {
-        $type = 'notifiy';
-        $data = billModel::orderBy('created_at')->get();
-        return view('bills.index',compact('data','id','type'));
+        $user = User::find(auth()->user()->id);
+        $user->unreadNotifications()->where('id',$id)->update(['read_at' => now()]);
+        return back();
+    }
+    public function asReadAll()
+    {
+        $user = User::find(auth()->user()->id);
+        $user->unreadNotifications()->update(['read_at' => now()]);
+        return back();
     }
 
     public function paidType($type)

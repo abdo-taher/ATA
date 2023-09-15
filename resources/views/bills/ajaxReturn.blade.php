@@ -295,12 +295,11 @@
                     </div>
                         </div>
                     </div>
-                    </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button class="btn ripple btn-secondary" data-dismiss="modal" type="button">غلق </button>
+            <button id="exit" class="btn ripple btn-secondary" data-dismiss="modal" type="button">غلق </button>
         </div>
     </div>
 </div>

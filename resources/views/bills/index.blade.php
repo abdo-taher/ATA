@@ -165,23 +165,20 @@
     <script src="{{ URL::asset('assets/plugins/notify/js/notifit-custom.js') }}"></script>
 
     <script>
-        $(document).ready(function (){
-            $(document).on('click','#billDeL',function (){
-                var id = $(this).data('id');
-                jQuery.ajax({
-                    url:'{{route('billAjax')}}',
-                    type:'post',
-                    "dataType":"html",
-                    cache:false,
-                    data:{'_token':'{{csrf_token()}}' , id },
-                    success:function (data){
-                        $('.viewDetails').html(data)
-                    },
-                    error:function (){
-                        $('.modal').html('<h5 style="color:red">عفوا لا يوجد بيانات لعرضها</h5>')
-                    }
-
-                })
+        $(document).on('click', '#billDeL', function () {
+            var id = $(this).data('id');
+            jQuery.ajax({
+                url: '{{route('billAjax')}}',
+                type: 'post',
+                "dataType": "html",
+                cache: false,
+                data: {'_token': '{{csrf_token()}}', id},
+                success: function (data) {
+                    $('.viewDetails').html(data)
+                },
+                error: function () {
+                    $('.modal').html('<h5 style="color:red">عفوا لا يوجد بيانات لعرضها</h5>')
+                }
 
             })
 
@@ -221,9 +218,7 @@
                 location.href='{{route('billToArchive')}}' + '/' + id;
             })
 
-            $(window).on('load', function() {
-                $('#notifiy').trigger('click');
-            });
+
 
 
 
