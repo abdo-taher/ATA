@@ -16,10 +16,14 @@
                 <h4 class="content-title mb-0 my-auto">الاقسام</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ القائمة</span>
             </div>
         </div>
+
         <div class="d-flex my-xl-auto right-content">
-            <a class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary float-left" data-target="#modaldemo3" data-toggle="modal" href=""><i class="fa fa-plus"></i></a>
-            <div id="modelBody">@include('sections.add')</div>
+            @can('اضافة قسم')
+                <a class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary float-left" data-target="#modaldemo3" data-toggle="modal" href=""><i class="fa fa-plus"></i></a>
+                <div id="modelBody">@include('sections.add')</div>
+            @endcan
         </div>
+
     </div>
     <!-- breadcrumb -->
 @endsection
@@ -78,16 +82,21 @@
                                     </td>
 
                                     <td>
+
+
+
                                         <div class="row">
                                         @if($info->status() == 1)
                                             <a  href="{{route('sectionActive',$info->id)}}" class="col-md-3 btn-icon btn btn-outline-danger m-1" ><i class="typcn typcn-lock-open-outline"></i></a>
                                         @else
                                             <a  href="{{route('sectionActive',$info->id)}}" class="col-md-3 btn-icon btn btn-outline-success m-1" ><i class="typcn typcn-lock-open-outline"></i></a>
                                         @endif
-
+                                            @can('تعديل قسم')
                                             <a id="Edit" data-id="{{$info->id}}"  class="col-md-3 btn-icon btn btn-outline-danger m-1" data-target="#modaldemo3" data-toggle="modal" href=""><i class="typcn typcn-edit"></i></a>
-
+                                            @endcan
+                                            @can('حذف قسم')
                                             <a  href="{{route('sectionDelete',$info->id)}}" class="col-md-3 btn-icon btn btn-outline-danger m-1" ><i class="typcn typcn-delete-outline"></i></a>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>

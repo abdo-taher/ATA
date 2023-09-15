@@ -11,9 +11,9 @@ class bill_attachmentModel extends Model
     protected $table = 'bill_attachments';
     protected $guarded = [];
     public function added(){
-        return $this->belongsTo(\App\Models\Admin\adminModel::class,'added_by');
+        return $this->belongsTo(\App\Models\User::class,'added_by');
     }
     public function updated_by(){
-        return $this->belongsTo(\App\Models\Admin\adminModel::class,'updated_by');
+        return $this->belongsTo(\App\Models\User::class,'updated_by');
     }
 }

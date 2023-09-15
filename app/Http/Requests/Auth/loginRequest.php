@@ -31,6 +31,7 @@ class loginRequest extends FormRequest
         return [
             'username.required' => 'الرجاء ادخال اسم المستخدم',
             'password.required' => 'الرجاء ادخال كلمة المرور',
+
         ];
     }
 }

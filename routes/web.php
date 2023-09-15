@@ -1,6 +1,7 @@
 <?php
-namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,15 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 
 
-    Route::group(['namespace'=>'App\Http\Controllers\Auth','middleware'=>'guest:admin'],function (){
-        Route::get('/login','loginController@login')->name('login');
-        Route::post('/checkup','loginController@checkup')->name('loginCheckup');
-    });
 
-
-Route::group([],function (){
-    Route::get('/logout','App\Http\Controllers\Auth\loginController@exit')->name('logout');
-    Route::group(['namespace'=>'App\Http\Controllers\Admin','middleware'=>'auth:admin'],function (){
+    Route::group(['namespace'=>'App\Http\Controllers\Auth','middleware'=>'guest:web'],function (){
+        Route::get('/login','LoginController@loginForm')->name('login');
+        Route::post('/AdminChek','LoginController@checkup')->name('AdminCheck');
+        });
+    Route::get('/logout','App\Http\Controllers\Auth\loginController@logout')->name('exit');
+    Route::group(['namespace'=>'App\Http\Controllers\Admin','middleware'=>'auth:web'],function (){
         Route::get('/','IndexController@index')->name('index');
         Route::get('/view/oth/{page}','IndexController@showw')->name('ss');
 
@@ -47,6 +46,7 @@ Route::group([],function (){
         });
         Route::group(['prefix'=>'Bills'],function (){
             Route::get('/','billController@index')->name('billIndex');
+            Route::get('/View/{id}','billController@view')->name('billView');
             Route::get('/Paid/{type}','billController@paidType')->name('billPaid');
             Route::get('/Archive','billController@archive')->name('billArchive');
             Route::get('/Create','billController@create')->name('billCreate');
@@ -64,16 +64,22 @@ Route::group([],function (){
             Route::post('/AjaxData','billController@ajaxFunction')->name('billAjax');
             Route::post('/deleteAttachment','billController@deleteBillAttachment')->name('deleteBillAttachment');
         });
-        Route::group(['prefix'=>'Admin'],function (){
-            Route::get('/','adminController@index')->name('adminIndex');
-            Route::post('/Add','adminController@add')->name('adminAdd');
-            Route::post('/Store','adminController@store')->name('adminStore');
-            Route::post('/Edit/{name}','adminController@edit')->name('adminEdit');
-            Route::post('/Update/{id}','adminController@update')->name('adminUpdate');
-            Route::get('/Active/{id}','adminController@active')->name('adminActive');
-            Route::get('/Delete/{id}','adminController@destroy')->name('adminDelete');
-            Route::post('/AjaxData','adminController@ajaxFunction')->name('adminAjax');
-
+        Route::group(['prefix'=>'Reports'],function (){
+            Route::get('/Bills','ReportsController@bills')->name('billReports');
+            Route::post('/Ajax','ReportsController@reportsAjax')->name('reportsAjax');
+            Route::get('/Customer','ReportsController@customer')->name('customerReports');
         });
     });
+
+
+Route::group(['middleware' => ['auth']], function() {
+
+    Route::resource('Roles','App\Http\Controllers\RoleController');
+    Route::get('Roles/Active/{id?}','App\Http\Controllers\RoleController@active')->name('Roles.active');
+    Route::get('Roles/delete/{id?}','App\Http\Controllers\RoleController@destroy')->name('Roles.delete');
+
+    Route::resource('Users','App\Http\Controllers\UserController');
+    Route::get('Users/Active/{id?}','App\Http\Controllers\UserController@active')->name('Users.active');
+    Route::get('Users/delete/{id?}','App\Http\Controllers\UserController@destroy')->name('Users.delete');
 });
+

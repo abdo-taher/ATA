@@ -30,21 +30,30 @@
 @endsection
 @include('layouts.alerts')
 @section('content')
+@if(isset($type))
+    <a id="notifiy" data-id="{{$id}}" data-toggle="modal" data-target="#View" ></a>
+@endif
 				<!-- row -->
 				<div class="row">
                     <div class="col-xl-12">
-
                         <div class="card">
                             <div class="card-body">
                                 <div>
+                                    @can('اضافة فاتورة')
                                     <a title="إضافة فاتورة جديدة" href="{{route('billCreate')}}" class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary "><i class="fa fa-plus"></i>  إضافة فاتورة</a>
+                                    @endcan
+                                    @can('ارشيف الفواتير')
                                     <a title="ارشيف الفواتير" href="{{route('billArchive')}}" class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary "><i class="fa fa-archive"></i>  ارشيف الفواتير</a>
+                                    @endcan
+                                    @can('تصدير EXCEL')
                                     <a title="تصدير اكسيل" href="{{route('exportExcel')}}" class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary "><i class="fa fa-file-export"></i>  تصدير اكسيل</a>
+                                    @endcan
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table text-md-nowrap table-hover" id="example1">
                                         <thead>
                                         <tr>
+                                            <th>العدد</th>
                                             <th>رقم الفاتورة</th>
                                             <th>تاريخ الاصدار</th>
                                             <th>الادمن الذي اضافها</th>
@@ -58,8 +67,13 @@
                                         </thead>
                                         <tbody>
                                         @if(($data))
-                                            @foreach($data as $info )
-                                                <tr class="align-items-center">
+                                            @foreach($data as $key => $info )
+                                                <tr id="{{$info->id}}" class="align-items-center
+                                                @if(isset($type) && $info->id == $id)
+                                                    bg-light
+                                                @endif
+                                                ">
+                                                    <td>{{++$key}}</td>
                                                     <td><span class="badge badge-success float-left">{{$info->discount_rate->discount_rate}}%</span>{{$info->bill_code}}</td>
                                                     <td>{{$info->bill_date}}</td>
                                                     <td>{{$info->added->name}}</td>
@@ -88,12 +102,22 @@
                                                                 <div class="dropdown-menu dropdown-menu-left " aria-labelledby="dropdownMenuDate" data-x-placement="bottom-end" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-1px, 40px, 0px);">
                                                                     <a title="عرض تفاصيل الفاتورة" id="billDeL"  data-id="{{$info->id}}" class=" btn-icon btn btn-outline-secondary m-1"
                                                                        data-toggle="modal" data-target="#View" ><i class="typcn typcn-eye-outline"></i></a>
+                                                                    @can('تغير حالة الدفع')
                                                                     <a title="عملية دفع جديدة" id="addDetails" data-id="{{$info->id}}"  class=" btn-icon btn btn-outline-success m-1"
                                                                        data-toggle="modal" data-target="#Details"><i class="typcn typcn-plus-outline"></i></a>
+                                                                    @endcan
+                                                                    @can('طباعةالفاتورة')
                                                                     <a title="طباعة الفاتورة" href="{{route('billPrint',$info->bill_code)}}"   class=" btn-icon  btn btn-outline-danger m-1"><i class="typcn typcn-printer"></i></a>
+                                                                    @endcan
+                                                                    @can('تعديل الفاتورة')
                                                                     <a title="نعديل الفاتورة" href="{{route('billEdit',$info->bill_code)}}"  class=" btn-icon btn btn-outline-success m-1"><i class="typcn typcn-edit"></i></a>
+                                                                    @endcan
+                                                                    @can('ارشفة الفاتورة')
                                                                     <a title="ارشفة الفاتورة" id="Delete"  data-bill_id="{{$info->id}}" class=" btn-icon  btn btn-outline-dark m-1" data-toggle="modal" data-target="#Archive"><i class="typcn typcn-archive"></i></a>
+                                                                    @endcan
+                                                                    @can('حذف الفاتورة')
                                                                     <a title="حذف الفاتورة" id="Delete"  data-bill_id="{{$info->id}}" class=" btn-icon  btn btn-outline-danger m-1" data-toggle="modal" data-target="#Delete"><i class="typcn typcn-delete-outline"></i></a>
+                                                                    @endcan
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -196,6 +220,10 @@
                 var id = $(this).val()
                 location.href='{{route('billToArchive')}}' + '/' + id;
             })
+
+            $(window).on('load', function() {
+                $('#notifiy').trigger('click');
+            });
 
 
 

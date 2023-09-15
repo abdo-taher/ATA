@@ -21,6 +21,25 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+        \Illuminate\Support\Facades\DB::table('sections')->insert([
+            [
+                'section_name'=>'البنك الاهلي المصري',
+                'description'=>'متخصص في سرقة الاموال من الناس المغفلة',
+                'added_by'=>'1',
+            ],[
+                'section_name'=>'بنك مصر',
+                'description'=>'متخصص في النصب علي المحتالين',
+                'added_by'=>'1',
+            ],[
+                'section_name'=>'بنك الراجحي',
+                'description'=>'حلو شوية عن الي فاتو',
+                'added_by'=>'1',
+            ],[
+                'section_name'=>'بنك CIB',
+                'description'=>'متخصص في النصب علي الناس الهاي',
+                'added_by'=>'1',
+            ]
+        ]);
     }
 
     /**

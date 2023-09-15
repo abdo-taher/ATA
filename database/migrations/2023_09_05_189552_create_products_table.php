@@ -23,6 +23,49 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+        \Illuminate\Support\Facades\DB::table('products')->insert([
+            [
+                'product_name'=>'قروض البك الاهلي',
+                'description'=>'متخصص في سرقة الاموال من الناس المغفلة',
+                'section_id'=>'1',
+                'added_by'=>'1',
+            ],[
+                'product_name'=>'ودائع البنك الاهلي',
+                'description'=>'متخصص في سرقة الاموال من الناس المغفلة',
+                'section_id'=>'1',
+                'added_by'=>'1',
+            ],[
+                'product_name'=>'قروض بنك مصر',
+                'description'=>'متخصص في سرقة الاموال من الناس المغفلة',
+                'section_id'=>'2',
+                'added_by'=>'1',
+            ],[
+                'product_name'=>'ودائع بنك مصر',
+                'description'=>'متخصص في سرقة الاموال من الناس المغفلة',
+                'section_id'=>'2',
+                'added_by'=>'1',
+            ],[
+                'product_name'=>'قروض بنك الرجحي',
+                'description'=>'متخصص في حفظ الاموال من الناس المغفلة',
+                'section_id'=>'3',
+                'added_by'=>'1',
+            ],[
+                'product_name'=>'ودائع بنك الرجحي',
+                'description'=>'متخصص في حفظ الاموال من الناس المغفلة',
+                'section_id'=>'3',
+                'added_by'=>'1',
+            ],[
+                'product_name'=>'قروض CIB',
+                'description'=>'متخصص في سرقة الاموال من الناس المغفلة',
+                'section_id'=>'4',
+                'added_by'=>'1',
+            ],[
+                'product_name'=>'ودائع CIB',
+                'description'=>'متخصص في سرقة الاموال من الناس المغفلة',
+                'section_id'=>'4',
+                'added_by'=>'1',
+            ],
+        ]);
     }
 
     /**

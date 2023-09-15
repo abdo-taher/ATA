@@ -17,10 +17,10 @@ class billModel extends Model
     protected $table = 'bills';
 
     public function added(){
-        return $this->belongsTo(\App\Models\Admin\adminModel::class,'added_by');
+        return $this->belongsTo(\App\Models\User::class,'added_by');
     }
     public function updated_by(){
-        return $this->belongsTo(\App\Models\Admin\adminModel::class,'updated_by');
+        return $this->belongsTo(\App\Models\User::class,'updated_by');
     }
     public function section() {
         return $this->belongsTo(\App\Models\Admin\sectionModel::class,'section_id');

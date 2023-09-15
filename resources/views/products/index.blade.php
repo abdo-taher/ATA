@@ -21,8 +21,10 @@
             </div>
         </div>
         <div class="d-flex my-xl-auto right-content">
+            @can('اضافة منتج')
             <a class="tx-12 tx-gray-500 mb-2 btn btn-outline-secondary float-left" data-target="#modaldemo3" data-toggle="modal" href=""><i class="fa fa-plus"></i></a>
             <div id="modelBody">@include('products.add')</div>
+            @endcan
         </div>
     </div>
     <!-- breadcrumb -->
@@ -85,10 +87,12 @@
                                                 @else
                                                     <a  href="{{route('productActive',$info->id)}}" class="col-md-3 btn-icon btn btn-outline-success m-1" ><i class="typcn typcn-lock-open-outline"></i></a>
                                                 @endif
-
+                                                @can('تعديل منتج')
                                                 <a id="Edit" data-id="{{$info->id}}"  class="col-md-3 btn-icon btn btn-outline-danger m-1" data-target="#modaldemo3" data-toggle="modal" href=""><i class="typcn typcn-edit"></i></a>
-
+                                                @endcan
+                                                @can('حذف منتج')
                                                 <a  class="col-md-3 btn-icon btn btn-outline-danger m-1" id='swal-parameter' ><i class="typcn typcn-delete-outline"></i></a>
+                                                @endcan
                                             </div>
                                         </td>
                                     </tr>

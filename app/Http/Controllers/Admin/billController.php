@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Exports\Admin\billExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\billRequest;
-use App\Models\Admin\AdminModel;
 use App\Models\User;
 use App\Notifications\Admin\BillNotify;
 use App\Models\Admin\bill_attachmentModel;
@@ -23,6 +22,17 @@ use mysql_xdevapi\Exception;
 
 class billController extends Controller
 {
+
+    function __construct()
+    {
+
+        $this->middleware('permission:قائمة الفواتير', ['only' => ['index']]);
+        $this->middleware('permission:اضافة فاتورة', ['only' => ['create','store']]);
+        $this->middleware('permission:تعديل الفاتورة', ['only' => ['edit','update']]);
+        $this->middleware('permission:حذف الفاتورة', ['only' => ['destroy']]);
+
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -30,6 +40,12 @@ class billController extends Controller
     {
         $data = billModel::all();
         return view('bills.index',compact('data'));
+    }
+    public function view($id)
+    {
+        $type = 'notifiy';
+        $data = billModel::orderBy('created_at')->get();
+        return view('bills.index',compact('data','id','type'));
     }
 
     public function paidType($type)
@@ -63,7 +79,6 @@ class billController extends Controller
      */
     public function create()
     {
-
         $sections = sectionModel::get(['id','section_name']);
         $product = productModel::get(['id','product_name']);
         $tax_rate = tax_rateModel::get(['id','discount_rate']);
@@ -104,13 +119,15 @@ class billController extends Controller
                         // save attachment
                         $filename = $request->file_name->getClientOriginalName();
                         $request->file_name->move(base_path('assets/img/billFiles')."/".$request->bill_code , $filename);
-                        // send email
-                        $admin = AdminModel::first();
-                        Notification::send($admin,new BillNotify($request->bill_code));
-                        return redirect()->route('billIndex')->with(['success'=>'تم اضافة الفاتورة بنجاح']);
+
+
                     }
                 }
-
+                // send email or notification
+                $admin = User::get()->where('role_name',['Owner']);
+                $bill_id = billModel::find($id);
+                Notification::send($admin,new BillNotify($bill_id));
+                return redirect()->route('billIndex')->with(['success'=>'تم اضافة الفاتورة بنجاح']);
             }else{
                 return redirect()->route('billIndex')->with(['fail'=>'لم تم اضافة الفاتورة بنجاح']);
             }

@@ -258,6 +258,7 @@
 
                                 <div class="tab-pane" id="Attachments">
                         <div>
+                            @can('اضافة مرفق')
                             <h5 class="card-title">اضف مرفق جديد</h5>
                             <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
                             <br>
@@ -270,6 +271,7 @@
                                 <br>
                             <input id="attachment_submit" type="submit"  class="btn btn-outline-primary justify-content-center" value="حفظ المرفق">
                             </form>
+                            @endcan
                         </div>
                         <br>
                         <table class="table-hover table">
@@ -283,8 +285,9 @@
                                 <td class="row">
                                     <a title="عرض الملحق" href="{{asset('assets/img/billFiles' . "/" . $info->bill_code . "/" . $info->file_name)}}" class="col-md-3 btn-icon btn btn-outline-secondary m-1" target="_blank"><i class="typcn typcn-eye-outline"></i></a>
                                     <a title="تحميل الملحق"  href="{{asset('assets/img/billFiles' . "/" . $info->bill_code . "/" . $info->file_name)}}" class="col-md-3 btn-icon btn btn-outline-success m-1" download><i class="typcn typcn-arrow-down-thick"></i></a>
+                                    @can('حذف المرفق')
                                     <a title="حذف الملحق" href="{{route('deleteAttachment',$info->id)}}" id="deleteAttachment"  class="col-md-3 btn-icon  btn btn-outline-danger m-1" data-bill_id="{{$info->id}}"><i class="typcn typcn-delete-outline"></i></a>
-
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach

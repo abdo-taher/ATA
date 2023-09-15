@@ -14,10 +14,10 @@ class sectionModel extends Model
     protected $table = 'sections';
 
     public function added(){
-        return $this->belongsTo(\App\Models\Admin\adminModel::class,'added_by');
+        return $this->belongsTo(\App\Models\User::class,'added_by');
     }
     public function updated_by(){
-        return $this->belongsTo(\App\Models\Admin\adminModel::class,'updated_by');
+        return $this->belongsTo(\App\Models\User::class,'updated_by');
     }
     public function status(){
         if ($this->status == 1){

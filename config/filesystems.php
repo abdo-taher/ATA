@@ -50,6 +50,14 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        'admin' => [
+            'driver' => 'local',
+            'root' => 'C:\xampp\htdocs\Ata\assets\img\admin',
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
 
         's3' => [
             'driver' => 's3',
