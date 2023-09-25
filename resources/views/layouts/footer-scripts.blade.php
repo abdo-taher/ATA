@@ -59,8 +59,6 @@
             if (id != undefined){
                 location.href='{{route('billRead')}}' + '/' + id;
             }
-
-
         })
         // setInterval(function (){
         //     $("#notification1").load(window.location.href + "#notification1");
